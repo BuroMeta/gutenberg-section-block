@@ -14,7 +14,7 @@ const {
 
 export default ( { attributes, className } ) => {
 
-	const { 
+	const {
 		tagName,
 		backgroundColor,
 		customTextColor,
@@ -41,8 +41,9 @@ export default ( { attributes, className } ) => {
 	}
 	return (
 		<Section tagName={tagName} className={ classes ? classes : undefined } style={ styles }>
+			<div className={ classnames('wp-block-mkl-section-inner') }>
 			{ !! bgImage && <div
-				className={ classnames( 
+				className={ classnames(
 					'section-bg', {
 						'bg__repeated': bgOptions.repeat,
 						'bg__stretched': bgOptions.stretch || bgOptions.fixed,
@@ -54,6 +55,7 @@ export default ( { attributes, className } ) => {
 				} }
 			/> }
 			<InnerBlocks.Content />
+			</div>
 		</Section>
 	);
 }
