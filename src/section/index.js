@@ -7,14 +7,14 @@
 import './style.scss';
 import './editor.scss';
 
-import editSection from './edit'
-import saveSection from './save'
-import deprecatedBlock from './deprecated'
-import blockAttributes from './attributes'
+import editSection from './edit';
+import saveSection from './save';
+import deprecatedBlock from './deprecated';
+import blockAttributes from './attributes';
 
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 const { __ } = wp.i18n; // Import __() from wp.i18n
-const { 
+const {
 	withFallbackStyles,
 } = wp.components;
 const { compose } = wp.compose;
@@ -36,7 +36,7 @@ const FallbackStyles = withFallbackStyles( ( node, ownProps ) => {
 	};
 } );
 
- /**
+/**
  * Register: Gutenberg Block.
  *
  * Registers a new block provided a unique name and an object defining its
@@ -74,7 +74,6 @@ registerBlockType( 'mkl/section-block', {
 		withColors( 'backgroundColor', { textColor: 'color' } ),
 		FallbackStyles,
 	] )( editSection ),
-
 
 	/**
 	 * The save function defines the way in which the different attributes should be combined

@@ -19,6 +19,15 @@ const {
 	PanelColorSettings,
 } = wp.blockEditor;
 
+// this var is defined in wp_add_inline_script in init.php
+// eslint-disable-next-line no-undef
+if (sectionCssClasses && sectionCssClasses.length !== 0) {
+	sectionCssClasses = [
+		{label: '- geen -', value: ''},
+		...sectionCssClasses,
+	];
+}
+
 export default ( props ) => {
 	const {
 		attributes,
@@ -26,7 +35,7 @@ export default ( props ) => {
 		setBackgroundColor,
 	} = props;
 
-	const { tagName, customBackgroundColor, customTextColor } = attributes;
+	const { tagName, cssClassName, customBackgroundColor, customTextColor } = attributes;
 
 	return (
 		<Fragment>
@@ -62,23 +71,22 @@ export default ( props ) => {
 				/>
 			</InspectorControls>
 			<InspectorAdvancedControls>
-				<SelectControl
-					label="Tag"
-					value={ tagName }
-					options={ [
-						{ label: 'section', value: 'section' },
-						{ label: 'header', value: 'header' },
-						{ label: 'footer', value: 'footer' },
-						{ label: 'div', value: 'div' },
-					] }
-					onChange={ ( tagName ) => {
-						setAttributes( { tagName } );
-					} }
-				/>
+				{ sectionCssClasses && sectionCssClasses.length &&
+					<SelectControl
+						label="Classname"
+						value={ cssClassName }
+						options={ sectionCssClasses }
+						onChange={ ( cssClassName ) => {
+							setAttributes( { cssClassName } );
+						} }
+					/>
+				// ) : (
+				// 	<p><strong>Missing option for cssClassName!</strong> Create an ACF option named 'section_classes' of type 'Repeater'. Add two sub fields 'label' and 'value' to it. Then fill it with the classes you need.</p>
+				}
 			</InspectorAdvancedControls>
 			<Section
 				tagName={ tagName }
-				className={ props.className }
+				className={ props.className + ' ' + cssClassName }
 				style={ {
 					backgroundColor: customBackgroundColor,
 					color: customTextColor,

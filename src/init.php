@@ -52,6 +52,10 @@ function section_block_cgb_editor_assets() {
 		true // Enqueue the script in the footer.
 	);
 
+	// add the list of css classes to the script (defined in acf option field (repeater))
+	$section_classes = get_field('section_classes', 'option');
+	wp_add_inline_script( 'section_block-cgb-block-js', 'let sectionCssClasses = ' . wp_json_encode( $section_classes ), 'before' );
+
 	// Styles.
 	wp_enqueue_style(
 		'section_block-cgb-block-editor-css', // Handle.

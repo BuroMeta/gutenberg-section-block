@@ -18,15 +18,24 @@ const {
 	PanelColorSettings,
 } = wp.blockEditor;
 
+// this var is defined in wp_add_inline_script in init.php
+// eslint-disable-next-line no-undef
+if (sectionCssClasses && sectionCssClasses.length !== 0) {
+	sectionCssClasses = [
+		{label: '- geen -', value: ''},
+		...sectionCssClasses,
+	];
+}
+
 export default ( props ) => {
-	console.log('EDIT DEPRECATED', props);
+	console.log( 'EDIT DEPRECATED', props );
 	const {
 		attributes,
 		setAttributes,
 		setBackgroundColor,
 	} = props;
 
-	const { customBackgroundColor, customTextColor,  } = attributes
+	const { cssClassName, customBackgroundColor, customTextColor } = attributes;
 
 	return (
 		<Fragment>
@@ -34,7 +43,7 @@ export default ( props ) => {
 				<PanelColorSettings
 					initialOpen={ false }
 					title={ __( 'Colors' ) }
-					colorSettings={[
+					colorSettings={ [
 						{
 							label: __( 'Background Color' ),
 							value: customBackgroundColor,
@@ -42,10 +51,10 @@ export default ( props ) => {
 								setBackgroundColor( nextBgColor );
 								setAttributes(
 									{
-										customBackgroundColor: nextBgColor
+										customBackgroundColor: nextBgColor,
 									}
-								)
-							}
+								);
+							},
 						},
 						{
 							label: __( 'Text Color' ),
@@ -53,29 +62,28 @@ export default ( props ) => {
 							onChange: ( nextColor, ...whatelse ) => {
 								setAttributes(
 									{
-										customTextColor: nextColor
+										customTextColor: nextColor,
 									}
-								)
-							}
-						}
-					]}
+								);
+							},
+						},
+					] }
 				/>
 			</InspectorControls>
 			<InspectorAdvancedControls>
-				<SelectControl
-					label="Tag"
-					value={ tagName }
-					options={ [
-						{ label: 'section', value: 'section' },
-						{ label: 'header', value: 'header' },
-						{ label: 'footer', value: 'footer' },
-						{ label: 'div', value: 'div' },
-					] }
-					onChange={ ( tagName ) => { setAttributes( { tagName } ) } }
-				/>
+				{sectionCssClasses && sectionCssClasses.length &&
+					<SelectControl
+						label="Classname"
+						value={cssClassName}
+						options={sectionCssClasses}
+						onChange={(cssClassName) => {
+							setAttributes({cssClassName});
+						}}
+					/>
+				}
 			</InspectorAdvancedControls>
 			<section
-				className={ props.className }
+				className={ props.className + ' ' + cssClassName }
 				style={ {
 					backgroundColor: customBackgroundColor,
 					color: customTextColor,
@@ -85,4 +93,4 @@ export default ( props ) => {
 			</section>
 		</Fragment>
 	);
-}
+};

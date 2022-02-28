@@ -3,6 +3,9 @@ export default {
 		type: 'string',
 		default: 'section',
 	},
+	cssClassName: {
+		type: 'string',
+	},
 	backgroundColor: {
 		type: 'string',
 	},
@@ -12,4 +15,4 @@ export default {
 	customTextColor: {
 		type: 'string',
 	},
-}
+};
